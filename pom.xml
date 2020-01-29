@@ -1,0 +1,154 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.hsmak</groupId>
+    <artifactId>forked-learn-scala-programing</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>Chapter01</module>
+        <module>Chapter02</module>
+        <module>Chapter03</module>
+        <module>Chapter04</module>
+        <module>Chapter05</module>
+        <module>Chapter06</module>
+        <module>Chapter07</module>
+        <module>Chapter08</module>
+        <module>Chapter09</module>
+        <module>Chapter10</module>
+        <module>Chapter11</module>
+        <module>Chapter12</module>
+        <module>Chapter13</module>
+        <module>Chapter14</module>
+        <module>Chapter15</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+        <scala.version>2.13.1</scala.version>
+        <scala.compat.version>2.13</scala.compat.version>
+        <spec2.version>4.8.1</spec2.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang.modules</groupId>
+                <artifactId>scala-xml_${scala.compat.version}</artifactId>
+                <version>1.2.0</version>
+            </dependency>
+
+            <!-- Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+               <!-- <scope>test</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_${scala.compat.version}</artifactId>
+                <version>3.0.8</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.specs2</groupId>
+                <artifactId>specs2-core_${scala.compat.version}</artifactId>
+                <version>${spec2.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.specs2</groupId>
+                <artifactId>specs2-junit_${scala.compat.version}</artifactId>
+                <version>${spec2.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <!-- see http://davidb.github.com/scala-maven-plugin -->
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                </configuration>
+                <!--<executions>
+                    <execution>
+                        <configuration>
+                            <recompileMode>incremental</recompileMode>
+                        </configuration>
+                    </execution>
+                </executions>-->
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-descriptor</id>
+                        <goals>
+                            <goal>attach-descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <!-- pluginManagement is similar to DependencyManagement -->
+        <pluginManagement>
+
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.scalatest</groupId>
+                    <artifactId>scalatest-maven-plugin</artifactId>
+                    <version>2.0.0</version>
+                </plugin>
+
+
+                <!--
+                    This is also needed so "mvn site" would call "scala:doc" to generate the Scaladoc???
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+
+
+</project>

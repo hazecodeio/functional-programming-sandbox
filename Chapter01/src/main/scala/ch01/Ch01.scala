@@ -62,6 +62,7 @@ object Ch01 extends App {
   }
   val List(r1, r2, r3) = List("first", "2", "3").map(Resource)
 
+  // ToDo - Needs fixing. Check ScalaDoc for Using(){this_part_is_missing}
   val lines: Try[Seq[String]] = for {
     u1 <- Using(r1)
     u2 <- Using(r2)
