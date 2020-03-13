@@ -5,7 +5,16 @@ import org.scalacheck.Prop._
 
 object SemigroupSpecification extends Properties("Semigroup") {
 
-  def associativity[S : Semigroup : Arbitrary]: Prop =
+
+  /**
+   * Alternatives to ContextBounds:
+   *    - def associativity[S](implicit sg: Semigroup[S], a: Arbitrary[S]) : Prop =
+   *    - def associativity[S : Arbitrary](implicit sg: Semigroup[S]) : Prop =
+   *
+   * @tparam S
+   * @return
+   */
+  def associativity[S: Semigroup : Arbitrary]: Prop =
     forAll((a: S, b: S, c: S) => {
       val sg = implicitly[Semigroup[S]]
       sg.op(sg.op(a, b), c) == sg.op(a, sg.op(b, c))

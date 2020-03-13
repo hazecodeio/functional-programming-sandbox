@@ -35,9 +35,13 @@ object Model extends App {
   val fish: Fish = fishGen.sample.get
   val freshFish = check(fish)
 
-  def mapFunc[A, B, F[_]](as: F[A])(f: A => B)(
-    implicit functor: Functor[F]): F[B] =
-    functor.map(as)(f)
+  /**
+   * a helper function that will allow us to pass a functor as a third parameter
+   */
+  def mapFunc[A, B, F[_]](as: F[A])(f: A => B)(implicit functor: Functor[F]): F[B] = functor.map(as)(f)
+
+  // Alternatively, we can use ContextBounds for the implicit:
+  // def mapFunc[A, B, F[_]: Functor](as: F[A])(f: A => B): F[B] = implicitly[Functor[F]].map(as)(f)
 
   import Functor._
   {
@@ -91,28 +95,31 @@ object Model extends App {
   */
 
   import Applicative._
+
   def pie(potato: Bucket[Int], milk: Bucket[Float]) = bucketApplicative(milk)(bucketApplicative(potato)(pieInProgress))
 
   pie(List(10), List(2f))
 
-  def pie3[F[_]: Applicative](fish: F[FreshFish], potato: F[Int], milk: F[Float]): F[FishPie] =
+  def pie3[F[_] : Applicative](fish: F[FreshFish], potato: F[Int], milk: F[Float]): F[FishPie] =
     implicitly[Applicative[F]].map3(fish, potato, milk)(bakePie)
 
   def checkHonestly[F[_] : Applicative](noFish: F[FreshFish])(fish: Fish): F[FreshFish] =
     if (Random.nextInt(3) == 0) noFish else implicitly[Applicative[F]].unit(FreshFish(fish))
 
-  def genericPie3[O[_], B[_]](fish: B[O[FreshFish]], potato: B[O[Int]], milk: B[O[Float]])(implicit a:Applicative[({type BO[x] = B[O[x]]})#BO]): B[O[FishPie]] = {
+  def genericPie3[O[_], B[_]](fish: B[O[FreshFish]], potato: B[O[Int]], milk: B[O[Float]])(implicit a: Applicative[({type BO[x] = B[O[x]]})#BO]): B[O[FishPie]] = {
     a.map3(fish, potato, milk)(bakePie)
   }
 
   val trueFreshFish: List[Option[FreshFish]] = bucketOfFish.map(checkHonestly(Option.empty[FreshFish]))
+
   def freshPotato(count: Int) = List(Some(count))
+
   def freshMilk(gallons: Float) = List(Some(gallons))
 
-  implicit val bucketOfFresh: Applicative[({ type T[x] = Bucket[Option[x]]})#T] =
+  implicit val bucketOfFresh: Applicative[({type T[x] = Bucket[Option[x]]})#T] =
     bucketApplicative.compose(optionApplicative)
 
-  val freshPie = pie3[({ type T[x] = Bucket[Option[x]]})#T](trueFreshFish, freshPotato(10), freshMilk(0.2f))
+  val freshPie = pie3[({type T[x] = Bucket[Option[x]]})#T](trueFreshFish, freshPotato(10), freshMilk(0.2f))
 
   println(freshPie)
 
@@ -138,6 +145,7 @@ object Model extends App {
   println(deeplyPackaged)
 
   import Traversable._
+
   val deepTraverse = tryTraversable.compose(eitherTraversable[Unit].compose(bucketTraversable))
 
   val deepYummi = deepTraverse.traverse(deeplyPackaged) { pie: Option[FishPie] =>
@@ -148,6 +156,7 @@ object Model extends App {
 }
 
 object ModelCheck {
+
   import Model._
   import org.scalacheck._
 

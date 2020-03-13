@@ -30,6 +30,9 @@ trait TryEffect {
 
   line.collect {  case s: String => s * 10 }
 
+  line.transform((l: String) => Try(println(l)), (ex: Throwable) => Try(throw ex))
+
+
   def retryAfterDelay = ???
 
   line.recover {
@@ -39,6 +42,7 @@ trait TryEffect {
   line.recoverWith {
     case ex: NoSuchElementException => Try(retryAfterDelay)
   }
+
 
   val result = firstTry orElse secondTry orElse failure orElse success
 
@@ -64,7 +68,7 @@ trait FishingTryExample {
 
     def goFishing(bestBaitForFishOrCurse: Try[String]): Try[Fish] = for {
       baitName <- bestBaitForFishOrCurse
-      bait <- buyBait(baitName).fold(_ => makeBait(baitName), Success(_))
+      bait <- buyBait(baitName).fold(_ => makeBait(baitName), Success(_)) // ToDo - compare fold() to transform()
       line <- castLine(bait)
       fish <- hookFish(line)
     } yield fish

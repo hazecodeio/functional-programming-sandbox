@@ -14,6 +14,26 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>org.spire-math</groupId>
+            <artifactId>kind-projector_2.12</artifactId>
+            <version>0.9.8</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.hsmak</groupId>
+            <artifactId>Chapter08</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../Chapter08/target/Chapter08-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.hsmak</groupId>
+            <artifactId>Chapter09</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../Chapter09/target/Chapter09-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -77,7 +97,7 @@
                     <junitxml>.</junitxml>
                     <filereports>TestSuiteReport.txt</filereports>
                     <!-- Comma separated list of JUnit test class names to execute -->
-                    <jUnitClasses>samples.AppTest</jUnitClasses>
+<!--                    <jUnitClasses>samples.AppTest</jUnitClasses>-->
                 </configuration>
                 <executions>
                     <execution>

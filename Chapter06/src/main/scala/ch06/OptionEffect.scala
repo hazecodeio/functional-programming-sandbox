@@ -4,10 +4,11 @@ object OptionEffect extends App {
   val opt0 = None
   val opt: Option[Int] = Some(10)
   val opt2 = Some("I'm a non-empty option")
-  val opt3 = Some(null)
+  val opt3 = Some(null) // defies the purpose of using Some()!!
 
-  def opt4[A](a: A): Option[A] = if (a == null) None else Some(a)
-
+  // not recommended!
+  def opt4[A](a: A): Option[A] = if (a == null) None else Some(a) // Actually, this is the implementation of the apply() method in the Option CompanionObject
+  // instead use the following
   def opt5[A](a: A): Option[A] = Option(a)
 
   if (opt.isDefined) println(opt.get)
@@ -18,7 +19,7 @@ object OptionEffect extends App {
   if (opt.forall(_ > 10)) println("Opt is empty or  > 10")
 
   if (opt.isDefined) {
-    val Some(value) = opt
+    val Some(value) = opt // pattern extractor
   }
 
   opt match {
@@ -28,7 +29,7 @@ object OptionEffect extends App {
 
   opt.getOrElse("No value")
 
-  opt2.orNull
+  opt2.orNull // very convenient for Java interoperability and is available for Option[AnyRef]
 
   opt2.foreach(println)
 
@@ -37,7 +38,7 @@ object OptionEffect extends App {
   val moreThen10: Option[Int] = opt.filter(_ > 10)
   val lessOrEqual10: Option[Int] = opt.filterNot(_ > 10)
 
-  val moreThen20: Option[String] = opt.collect {
+  val moreThen20: Option[String] = opt.collect { // collect() accept a PartialFunction[-T, +R]
     case i if i > 20 => s"More then 20: $i"
   }
 
@@ -48,27 +49,30 @@ object OptionEffect extends App {
   opt.fold("Value for an empty case")((i: Int) => s"The value is $i")
 }
 
+// Note the nested traits
 trait FishingOptionExample {
 
   import Effects._
   trait plain {
+    // Lack use of Option[]
     val buyBait: String => Bait
     val makeBait: String => Bait
     val castLine: Bait => Line
     val hookFish: Line => Fish
 
     def goFishing(bestBaitForFish: Option[String]): Option[Fish] =
-      bestBaitForFish.map(buyBait).map(castLine).map(hookFish)
+      bestBaitForFish.map(buyBait).map(castLine).map(hookFish) // Note the use of map()
   }
 
   trait flat {
+    // Wrapped around Option[]
     val buyBait: String => Option[Bait]
     val makeBait: String => Option[Bait]
     val castLine: Bait => Option[Line]
     val hookFish: Line => Option[Fish]
 
     def goFishingOld(bestBaitForFish: Option[String]): Option[Fish] =
-      bestBaitForFish.flatMap(buyBait).flatMap(castLine).flatMap(hookFish)
+      bestBaitForFish.flatMap(buyBait).flatMap(castLine).flatMap(hookFish) // Note the use of chained flatMap()
 
     def goFishing(bestBaitForFish: Option[String]): Option[Fish] =
       for {

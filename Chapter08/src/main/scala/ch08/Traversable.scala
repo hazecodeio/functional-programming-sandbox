@@ -7,7 +7,23 @@ import scala.util.{Failure, Success, Try}
 import scala.{Traversable => _}
 
 trait Traversable[F[_]] extends Functor[F] {
+  /**
+   * Observations:
+   *    - Analogous to fold(), hence it expects a seed value beside the function "f"
+   */
   def traverse[A,B,G[_]: Applicative](a: F[A])(f: A => G[B]): G[F[B]]
+
+  /**
+   * Observations:
+   *    - Analogous to reduce(). It doesn't expect a seed value, hence it's passing the identity to the traverse()
+   *    - It reverses the type parameters
+   *      - F[G] becomes G[F]
+   *      - [A] stays the same
+   *
+   * Usage:
+   *    - Future.sequence():
+   *      - where you'll pass in a List[Future] and return a Future[List]
+   */
   def sequence[A,G[_]: Applicative](a: F[G[A]]): G[F[A]] = traverse(a)(identity)
 
   implicit def compose[H[_]](implicit H: Traversable[H]): Traversable[({type f[x] = F[H[x]]})#f] = {

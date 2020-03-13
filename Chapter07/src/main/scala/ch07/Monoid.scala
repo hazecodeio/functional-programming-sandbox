@@ -57,6 +57,15 @@ object Monoid {
   implicit def surviveInTheBucket(implicit m: Monoid[Fish]): Monoid[Bucket[Fish]] = new Monoid[Bucket[Fish]] {
     override def identity: Bucket[Fish] = List.fill(100)(ZeroFish)
 
+    /*
+      ToDo - ".tupled" is useful to convert a 2-arg method into a single arg of type Tuple2[A1, A2]:
+        def tupled: ((T1, T2)) => R
+          Creates a tupled version of this function: instead of 2 arguments, it accepts a single scala.Tuple2 argument.
+          ((T1, T2)) => R
+
+      (1::2::Nil zip 3::4::Nil).map((op _).tupled)
+      res26: List[Int] = List(4, 6)
+     */
     override def op(l: Bucket[Fish], r: Bucket[Fish]): Bucket[Fish] = {
       val operation = (m.op _).tupled
       l zip r map operation

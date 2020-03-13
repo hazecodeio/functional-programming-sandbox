@@ -3,6 +3,12 @@ package ch08
 import scala.language.{higherKinds, reflectiveCalls}
 import scala.util.Try
 
+/**
+ *  Title: Functors
+ *    - It allows to apply a function of one argument to each element stored in the container.
+ *    - Works with "single" Effect
+ * @tparam F
+ */
 trait Functor[F[_]] {
   def map[A,B](in: F[A])(f: A => B): F[B]
 
@@ -19,6 +25,7 @@ object Functor {
   implicit val optionFunctor: Functor[Option] = new Functor[Option] {
     override def map[A, B](in: Option[A])(f: A => B): Option[B] = in.map(f)
     override def mapC[A, B](f: A => B): Option[A] => Option[B] = (_: Option[A]).map(f)
+//    override def mapC[A, B](f: A => B): Option[A] => Option[B] = (o: Option[A]) => o.map(f)
   }
 
   implicit def eitherFunctor[L] = new Functor[({ type T[A] = Either[L, A] })#T] {

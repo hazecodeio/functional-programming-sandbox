@@ -19,7 +19,7 @@ object Ch01 extends App {
 
   val user = User("John", "Doe", "jd@mail.me")
   user.productElementNames.mkString(", ")
-  user.productElementName(3)
+//  user.productElementName(3) // runtime exception: java.lang.IndexOutOfBoundsException
 
   val tuple = (1, "two", false)
 
@@ -37,12 +37,12 @@ object Ch01 extends App {
 
   import UserDb._
   val userId = 1L
-  save(update(getById(userId)))
+//  save(update(getById(userId)))
 
-  getById(userId).pipe(update).pipe(save)
+//  getById(userId).pipe(update).pipe(save)
 
-  val doEverything = (getById _).andThen(update).andThen(save)
-  doEverything(userId)
+//  val doEverything = (getById _).andThen(update).andThen(save)
+//  doEverything(userId)
 
   val lastTick = new AtomicLong(0)
   def start(): Unit = lastTick.set(System.currentTimeMillis())
@@ -62,13 +62,17 @@ object Ch01 extends App {
   }
   val List(r1, r2, r3) = List("first", "2", "3").map(Resource)
 
-  // ToDo - Needs fixing. Check ScalaDoc for Using(){this_part_is_missing}
+  /**
+   * ToDo - Needs fixing. Check ScalaDoc for Using(){this_part_is_missing}
+   *  Done!
+   */
+
   val lines: Try[Seq[String]] = for {
-    u1 <- Using(r1)
-    u2 <- Using(r2)
-    u3 <- Using(r3)
+    u1 <- Using(r1){_.lines}
+    u2 <- Using(r2){_.lines}
+    u3 <- Using(r3){_.lines}
   } yield {
-    u1.lines ++ u2.lines ++ u3.lines
+    u1 ++ u2 ++ u3
   }
 
   println(lines)

@@ -1,13 +1,21 @@
 package ch04
 
+import scala.util.Random
+
 object ImplicitConversions {
+
   import scala.language.implicitConversions
 
   // defined in predef
   // implicit def int2Integer(x: Int): java.lang.Integer = x.asInstanceOf[java.lang.Integer]
   // implicit def Integer2int(x: java.lang.Integer): Int = x.asInstanceOf[Int]
 
+  /**
+   * This is a custom java randomInt
+   * @see [[RandomInt.randomInt()]]
+   */
   val integer: Integer = RandomInt.randomInt()
+
   val int: Int = math.abs(integer)
 
   // @inline implicit def augmentString(x: String): StringOps = new StringOps(x)
@@ -15,9 +23,11 @@ object ImplicitConversions {
   "I'm a string".flatMap(_.toString * 2) ++ ", look what I can"
 
   case class A[T](a: T)
+
   case class B[T](a: T)
 
   implicit def t2A[T](a: T): A[T] = A(a)
+
   implicit def t2B[T](a: T): B[T] = B(a)
 
   def ab[C](a: B[A[C]]): Unit = println(a)

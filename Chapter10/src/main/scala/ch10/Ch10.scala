@@ -126,7 +126,8 @@ object Ch10 {
       def isEmpty: F[Boolean] = Monad[F].map(value)(_.isEmpty)
     }
 
-    implicit def fOptionMonad[F[_] : Monad] = new Monad[FOption[F, ?]] {
+      //implicit def fOptionMonad[F[_] : Monad] = new Monad[FOption[F, ?]]
+    implicit def fOptionMonad[F[_] : Monad] = new Monad[({type T[A] = FOption[F, A]})#T] {
       override def unit[A](a: => A): FOption[F, A] = Monad[F].unit(Monad[Option].unit(a))
       override def flatMap[A, B](a: FOption[F, A])(f: A => FOption[F, B]): FOption[F, B] = a.compose(f)
     }

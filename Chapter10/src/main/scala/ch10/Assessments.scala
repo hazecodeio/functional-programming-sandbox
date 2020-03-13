@@ -29,7 +29,8 @@ object Assessments {
 
   def tryTunit[F[_] : Monad, A](a: => A) = new TryT(Monad[F].unit(Try(a)))
 
-  implicit def TryTMonad[F[_] : Monad]: Monad[TryT[F, ?]] = new Monad[TryT[F, ?]] {
+//  implicit def TryTMonad[F[_] : Monad]: Monad[TryT[F, ?]] = new Monad[TryT[F, ?]] {
+implicit def TryTMonad[F[_] : Monad] = new Monad[({type T[A] = TryT[F, A]})#T] {
     override def unit[A](a: => A): TryT[F, A] = Monad[F].unit(Monad[Try].unit(a))
 
     override def flatMap[A, B](a: TryT[F, A])(f: A => TryT[F, B]): TryT[F, B] = a.compose(f)
@@ -39,7 +40,8 @@ object Assessments {
   import ch09.Monad.futureMonad
   import scala.concurrent.ExecutionContext.Implicits.global
 
-  object Ch10FutureTryFishing extends FishingApi[TryT[Future, ?]] {
+  //object Ch10FutureTryFishing extends FishingApi[TryT[Future, ?]]
+  object Ch10FutureTryFishing extends FishingApi[({type T[A] = TryT[Future, A]})#T] {
 
     val buyBaitImpl: String => Future[Bait] = ???
     val castLineImpl: Bait => Try[Line] = ???
@@ -59,7 +61,10 @@ object Assessments {
   type Outer[F[_], A] = EitherT[F, String, A]
   type Stack[A] = Outer[Inner, A]
 
-  object Ch10EitherTOptionTFutureFishing extends FishingApi[Stack[?]] {
+  import ch10.Transformers._
+
+  //object Ch10EitherTOptionTFutureFishing extends FishingApi[Stack[?]]
+  object Ch10EitherTOptionTFutureFishing extends FishingApi[({type T[A] = Stack[A]})#T] {
 
     val buyBaitImpl: String => Future[Bait] = ???
     val castLineImpl: Bait => Either[String, Line] = ???

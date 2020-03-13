@@ -1,5 +1,14 @@
 package ch09
 
+/**
+ * - The State monad represents an external state
+ * - It accepts an external context and passes it over unchanged to every computation down the queue
+ * - Reader will have access to read-only system properties
+ *
+ * @param run
+ * @tparam R
+ * @tparam A
+ */
 final case class Reader[R, A](run: R => A) {
   def compose[B](f: A => Reader[R, B]): Reader[R, B] = Reader { r: R =>
     f(run(r)).run(r)
@@ -12,6 +21,7 @@ object Reader {
 
 
 object ReaderExample extends App {
+  // As this is external regulation, we have to model it with a case class
   final case class Limits(speed: Float, angle: Double)
   type ReaderLimits[A] = Reader[Limits, A]
 

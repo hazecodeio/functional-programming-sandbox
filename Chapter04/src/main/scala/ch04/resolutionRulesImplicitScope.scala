@@ -23,7 +23,8 @@ object ChildA {
 
 trait Test {
   def test(a: ChildA) = {
-    val _: Int = a // companion object of ParentA
+    // ToDo - commented out due to compile error
+//    val _: Int = a // companion object of ParentA
     // val _: String = a // companion object of ChildA
     // val _: Char = a // companion object of ParentB
   }
