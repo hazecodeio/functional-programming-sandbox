@@ -2,7 +2,7 @@ package ch04
 
 object TypeClassVariance {
 
-  trait Cable[C] {
+  trait Cable[-C] {
     def connect(c: C): Boolean
   }
 
@@ -36,7 +36,7 @@ object TypeClassVariance {
 
   connectCable(UsbC("3.1"))
 
-  // implicitly[Cable[UsbConnector] <:< Cable[UsbC[String]]]
+   implicitly[Cable[UsbConnector] <:< Cable[UsbC[String]]]
 }
 
 

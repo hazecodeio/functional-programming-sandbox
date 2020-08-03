@@ -28,5 +28,7 @@ object TypeLambdas {
 
   def fillWithWater[CC <: Container[Water]](container: CC)(filler: WaterFiller[CC]) = ???
 
+  def fillWithWater2[CC <: Container[Water]](container: CC)(filler: ({type WaterFiller[CC <: Container[Water]] = Filler[Water, CC]})#WaterFiller[CC]) = ???
+
 }
 

@@ -19,10 +19,11 @@ trait Monad[F[_]] extends Applicative[F] {
   override def map[A, B](a: F[A])(f: A => B): F[B] = flatMap(a)(a => unit(f(a)))
 
   override def apply[A, B](a: F[A])(f: F[A => B]): F[B] =
-    flatMap(f) { fab: (A => B) => map(a) { a: A => fab(a) } }
+    flatMap(f) { fab: (A => B) => map(a) { a1: A => fab(a1) } }
 }
 
 object Monad {
+  // this will be used in the implicit Monads
   def apply[F[_] : Monad]: Monad[F] = implicitly[Monad[F]]
 
   //We have to say to the compiler that an Id[A] is the same thing as an A
@@ -98,6 +99,7 @@ object Monad {
   //ToDo - "?" doesn't work as a type parameter!!! <- looks like the solution is to add this dependency addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.8")
   //implicit def readerMonad[R] = new Monad[Reader[R, ?]] {
   implicit def readerMonad[R] = new Monad[({type T[A] = Reader[R, A]})#T] {
+
     override def unit[A](a: => A): Reader[R, A] = Reader(a)
 
     override def flatMap[A, B](a: Reader[R, A])(f: A => Reader[R, B]): Reader[R, B] = a.compose(f)

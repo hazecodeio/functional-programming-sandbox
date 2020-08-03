@@ -4,7 +4,7 @@ package ch02
 object TypeMembers {
 
   trait HolderA {
-    type A
+    type A // this is a type member
 
     def a: A
   }
@@ -33,7 +33,7 @@ object TypeMembers {
    */
 
   trait HolderDEF {
-    type D >: Null <: AnyRef
+    type D >: Null <: Null
     type E <: AnyVal
     type F = this.type
 

@@ -18,9 +18,23 @@ object Transformers {
     - So F[_] is a Monad
    */
 
-  private def noResultOptionT[F[_] : Monad, T]: F[Option[T]] = Monad[F].unit(Option.empty[T])
+  private def noResultOptionT[F[_] : Monad, B]: F[Option[B]] = Monad[F].unit(Option.empty[B])
 
+  /**
+   * Observation:
+   *  - This is exactly the same as @see[[Ch10.Ch06Transformed.FOption]]
+   *    - Looks like by convention this is a Transformer and hence the name "OptionT"
+   *  - Have the Transformer as an implicit class
+   *  - The name of the Transformer will be the name of the effect being transformed
+   *    - This effect wrapped around the target Monadic effect "F"
+   *    - So "F" could be Future, Try, Either, another Option, etc
+   *  - compose() has the same signature as Monad's flatMap()
+   *    - hence will be delegated to in the implicit Monads
+   *  - then have an implicit Monad parametrized by the below implicit class
+   *    - new Monad[OptionT]
+   */
   implicit class OptionT[F[_] : Monad, A](val value: F[Option[A]]) {
+    //compose() has the same signature as Monad's flatMap()
     def compose[B](f: A => OptionT[F, B]): OptionT[F, B] = {
       val result = value.flatMap {
         case None => noResultOptionT[F, B]
@@ -32,11 +46,19 @@ object Transformers {
     def isEmpty: F[Boolean] = Monad[F].map(value)(_.isEmpty)
   }
 
+  // Lifting function for OptionT
   def optionTunit[F[_] : Monad, A](a: => A) = new OptionT(Monad[F].unit(Option(a)))
 
+  /**
+   * Observation:
+   *  - This is the Monad being parameterized by the previous implicit class
+   *  - Monad[F] is coming from the CompanionObject's "apply"
+   *    - def apply[F[_] : Monad]: Monad[F] = implicitly[Monad[F]]
+   *    - @see[[Monad.apply]]
+   */
   //implicit def OptionTMonad[F[_] : Monad]: Monad[OptionT[F, ?]] = new Monad[OptionT[F, ?]]
   implicit def OptionTMonad[F[_] : Monad] = new Monad[({type T[A] = OptionT[F, A]})#T] {
-    override def unit[A](a: => A): OptionT[F, A] = Monad[F].unit(Monad[Option].unit(a))
+    override def unit[A](a: => A): OptionT[F, A] = Monad[F].unit(Monad[Option].unit(a)) // This is actually being converted by the implicit class
 
     override def flatMap[A, B](a: OptionT[F, A])(f: A => OptionT[F, B]): OptionT[F, B] = a.compose(f)
   }

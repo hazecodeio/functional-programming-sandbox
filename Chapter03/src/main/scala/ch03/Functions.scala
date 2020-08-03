@@ -8,6 +8,6 @@ object Functions {
   }
   val function = method("name")
 
-  def fourParams(one: String, two: Int, three: Boolean, four: Long) = ()
+  def fourParams(one: String, two: Int, three: Boolean, four: Long, a: Int*) = ()
   val applyTwo = fourParams("one", _: Int, true, _: Long)
 }

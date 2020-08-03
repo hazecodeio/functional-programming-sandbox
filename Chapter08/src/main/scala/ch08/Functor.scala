@@ -10,7 +10,7 @@ import scala.util.Try
  * @tparam F
  */
 trait Functor[F[_]] {
-  def map[A,B](in: F[A])(f: A => B): F[B]
+  def map[A,B](in: F[A])(f: A => B): F[B] // foldMap(in: F[A])(f: A => B): B //foldMap() returns B not F[B]!!
 
   def mapC[A,B](f: A => B): F[A] => F[B] = fa => map(fa)(f)
 }

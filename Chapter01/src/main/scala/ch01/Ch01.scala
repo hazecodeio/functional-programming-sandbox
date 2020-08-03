@@ -15,8 +15,6 @@ object Ch01 extends App {
   val bool = "Not True"
   bool.toBooleanOption
 
-  scala.util.Using
-
   val user = User("John", "Doe", "jd@mail.me")
   user.productElementNames.mkString(", ")
 //  user.productElementName(3) // runtime exception: java.lang.IndexOutOfBoundsException
@@ -52,7 +50,7 @@ object Ch01 extends App {
     println(s"$a: ${now - before} ms elapsed")
   }
 
-  start()
+//  start()
   val result = StdIn.readLine().pipe(_.toIntOption).tap(measure)
   val anotherResult = StdIn.readLine().pipe(_.toIntOption).tap(measure)
 
