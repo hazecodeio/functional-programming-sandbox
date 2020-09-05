@@ -3,12 +3,15 @@ package ch11
 import akka.testkit.TestKit
 import ch11.Manager.ShoppingList
 import ch11.Mixer.Groceries
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
+//import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.language.postfixOps
 
 class StoreSpec(store: Store) extends TestKit(store.store)
-    with Matchers with WordSpecLike with BeforeAndAfterAll {
+    with Matchers with AnyWordSpecLike with BeforeAndAfterAll {
 
   def this() = this(new Store {})
 
