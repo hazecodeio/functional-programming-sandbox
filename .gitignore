@@ -1,11 +1,9 @@
 *.class
 *.log
-target/
-.idea/
 .git/
 **/target
 **/.idea
-**/target
+**/*.iml
 **/ideatarget
 **/.target
 **/bin
