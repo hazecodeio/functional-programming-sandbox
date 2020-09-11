@@ -11,11 +11,12 @@ import ch12.Oven.Extract
 import ch12.Shop.{SellByList, ShoppingList}
 import com.typesafe.config.Config
 import org.scalatest._
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class BakerySpec extends WordSpec with ActorTestKit with BeforeAndAfterAll {
+class BakerySpec extends AnyWordSpec with ActorTestKit with BeforeAndAfterAll {
 
   override def afterAll: Unit = shutdownTestKit()
 

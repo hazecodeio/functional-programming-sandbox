@@ -17,11 +17,13 @@
         <module>Chapter08</module>
         <module>Chapter09</module>
         <module>Chapter10</module>
-        <module>Chapter11</module>
+
+        <!-- ToDo - Reflect Akkka''s dependency and upgrade accordingly-->
+        <!--<module>Chapter11</module>
         <module>Chapter12</module>
         <module>Chapter13</module>
         <module>Chapter14</module>
-        <module>Chapter15</module>
+        <module>Chapter15</module>-->
     </modules>
 
     <properties>
@@ -31,6 +33,8 @@
         <scala.version>2.13.3</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
         <spec2.version>4.8.1</spec2.version>
+        <scalatest.version>3.2.2</scalatest.version>
+        <junit4.version>4.13</junit4.version>
     </properties>
 
     <dependencyManagement>
@@ -43,20 +47,20 @@
             <dependency>
                 <groupId>org.scala-lang.modules</groupId>
                 <artifactId>scala-xml_${scala.compat.version}</artifactId>
-                <version>1.2.0</version>
+                <version>1.3.0</version>
             </dependency>
 
             <!-- Test -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
-               <!-- <scope>test</scope>-->
+                <version>${junit4.version}</version>
+                <!-- <scope>test</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest_${scala.compat.version}</artifactId>
-                <version>3.0.8</version>
+                <version>${scalatest.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -71,6 +75,40 @@
                 <version>${spec2.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!--Akka-->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-actor_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-remote_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-testkit_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
+
+            <!--Akka Typed-->
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-actor-typed_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-cluster-typed_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-actor-testkit-typed_2.13</artifactId>
+                <version>2.6.8</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -82,10 +120,11 @@
                 <!-- see http://davidb.github.com/scala-maven-plugin -->
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.3.0</version>
+                <version>4.4.0</version>
                 <configuration>
                     <recompileMode>incremental</recompileMode>
                 </configuration>
+
                 <!--<executions>
                     <execution>
                         <configuration>
@@ -130,7 +169,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
+                    <version>3.9.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

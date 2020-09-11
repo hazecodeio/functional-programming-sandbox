@@ -5,7 +5,10 @@ import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import ch11.Cook.RawCookies
 import ch11.Manager.ShoppingList
 import ch11.Oven.Cookies
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
+//import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -14,7 +17,7 @@ import scala.util.Random
 class BakerySpec(_system: ActorSystem)
     extends TestKit(_system)
     with Matchers
-    with WordSpecLike
+    with AnyWordSpecLike
     with BeforeAndAfterAll
     with ImplicitSender {
 

@@ -1,9 +1,10 @@
+**/.idea
+**/*.iml
+**/target
+
 *.class
 *.log
 .git/
-**/target
-**/.idea
-**/*.iml
 **/ideatarget
 **/.target
 **/bin

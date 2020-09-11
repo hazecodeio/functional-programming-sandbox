@@ -33,7 +33,7 @@ object TypeMembers {
    */
 
   trait HolderDEF {
-    type D >: Null <: Null
+    type D >: Null <: AnyRef
     type E <: AnyVal
     type F = this.type
 

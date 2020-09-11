@@ -8,10 +8,11 @@ import ch12.Bakery.Groceries
 import ch12.Manager.ReceiveGroceries
 import ch12.Shop.{SellByList, ShoppingList}
 import org.scalatest.WordSpec
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.language.postfixOps
 
-class ShopSpec extends WordSpec {
+class ShopSpec extends AnyWordSpec {
 
   "A seller in the shop" should {
     "return groceries if given a shopping list" in {
