@@ -1,3 +1,4 @@
+#!/bin/bash
 
 ## functional-programming-in-scala
 git subtree pull --prefix _forks/functional-programming-in-scala/ https://github.com/fpinscala/fpinscala.git master
