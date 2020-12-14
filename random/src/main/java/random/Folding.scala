@@ -43,7 +43,6 @@ object Folding extends App {
   println(mResult)
 
 
-  //ToDo - move this to a new repository/module/package "functional-data-structures"? "functional-ops"?
   def tail[A](as: List[A]): List[A] = as match {
     case Nil => sys.error("tail of empty list")
     case _ :: xs => xs
