@@ -1,0 +1,11 @@
+## functional-programming-in-scala
+
+- Adding:
+git subtree add --prefix _forks/functional-programming-in-scala/ git@github.com:hsmak/forked-functional-programming-in-scala.git master
+
+- Pulling:
+git subtree pull --prefix _forks/functional-programming-in-scala/ git@github.com:hsmak/forked-functional-programming-in-scala.git master
+
+###############################################
+
+##
