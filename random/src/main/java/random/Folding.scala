@@ -2,7 +2,6 @@ package random
 
 import scala.annotation.tailrec
 
-//ToDo - move this to a new repository/module/package "functional-data-structures"? "functional-ops"?
 object Folding extends App {
 
 
