@@ -25,6 +25,15 @@ object Boat {
   def turn[M[_]: Monad]: Double => Boat => M[Boat] =
     angle => boat => Monad[M].unit(boat.turn(angle))
 
+  /**
+   *
+   * @param go
+   * @param turn
+   * @param boat Monadic Effect?
+   * @tparam A
+   * @tparam M
+   * @return
+   */
   def move[A, M[_]: Monad](go: (Float, Float) => A => M[A], turn: Double => A => M[A])(boat: M[A]): M[A] = for {
     a <- boat
     b <- go(10,5)(a)

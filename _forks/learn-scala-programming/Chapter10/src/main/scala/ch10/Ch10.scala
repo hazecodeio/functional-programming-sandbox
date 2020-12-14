@@ -109,13 +109,21 @@ object Ch10 {
       }
 
   }
-    object Ch06Transformed {
-      import scala.concurrent.ExecutionContext.Implicits.global
-      import Monad.lowPriorityImplicits._
 
-      private def noResultF[F[_]: Monad, T] = Monad[F].unit(Option.empty[T])
+  object Ch06Transformed {
 
-    implicit class FOption[F[_]: Monad, A](val value: F[Option[A]]) {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import Monad.lowPriorityImplicits._
+
+    private def noResultF[F[_] : Monad, T] = Monad[F].unit(Option.empty[T])
+
+    /**
+     * Observation:
+     *  - This is exactly the same as @see[[Transformers.OptionT]]
+     *    - Looks like by convention this is a Transformer and hence the name "OptionT"
+     *
+     */
+    implicit class FOption[F[_] : Monad, A](val value: F[Option[A]]) {
       def compose[B](f: A => FOption[F, B]): FOption[F, B] = {
         val result = value.flatMap {
           case None => noResultF[F, B]
@@ -123,11 +131,14 @@ object Ch10 {
         }
         new FOption(result)
       }
+
       def isEmpty: F[Boolean] = Monad[F].map(value)(_.isEmpty)
     }
 
-    implicit def fOptionMonad[F[_] : Monad] = new Monad[FOption[F, ?]] {
+    //implicit def fOptionMonad[F[_] : Monad] = new Monad[FOption[F, ?]]
+    implicit def fOptionMonad[F[_] : Monad] = new Monad[({type T[A] = FOption[F, A]})#T] {
       override def unit[A](a: => A): FOption[F, A] = Monad[F].unit(Monad[Option].unit(a))
+
       override def flatMap[A, B](a: FOption[F, A])(f: A => FOption[F, B]): FOption[F, B] = a.compose(f)
     }
 

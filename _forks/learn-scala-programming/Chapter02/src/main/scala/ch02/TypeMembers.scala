@@ -4,7 +4,7 @@ package ch02
 object TypeMembers {
 
   trait HolderA {
-    type A
+    type A // this is a type member
 
     def a: A
   }

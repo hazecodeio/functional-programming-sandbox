@@ -20,7 +20,7 @@ object FreeMonad extends App {
   final case class ReleaseFish[A](fish: Fish, f: Unit => A) extends Action[A]
 
   final case class Done[F[_]: Functor, A](a: A) extends Free[F, A]
-  final case class Join[F[_]: Functor, A](action: F[Free[F, A]]) extends Free[F, A]
+  final case class Join[F[_]: Functor, A](action: F[Free[F, A]]) extends Free[F, A] // F is an Action
 
   class Free[F[_]: Functor, A] {
     def flatMap[B](f: A => Free[F, B]): Free[F, B] = this match {
