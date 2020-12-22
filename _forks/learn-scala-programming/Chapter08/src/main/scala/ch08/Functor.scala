@@ -4,15 +4,25 @@ import scala.language.{higherKinds, reflectiveCalls}
 import scala.util.Try
 
 /**
- *  Title: Functors
+ * Title: Functors
  *    - It allows to apply a function of one argument to each element stored in the container.
  *    - Works with "single" Effect
+ *
  * @tparam F
  */
 trait Functor[F[_]] {
-  def map[A,B](in: F[A])(f: A => B): F[B] // foldMap(in: F[A])(f: A => B): B //foldMap() returns B not F[B]!!
+  /*
+   * Comparison:
+   *    - def foldMap(in: F[A])(f: A => B): B
+   *      - returns B not F[B]!!
+   *
+   *    - def flatMap[A, B](a: F[A])(f: A => F[B]): F[B]
+   *      - returns same container F but F[B] not F[A]!!
+   *      - Also, lambda "f" is (A => F[B]) not (A => B)!!
+   */
+  def map[A, B](in: F[A])(f: A => B): F[B]
 
-  def mapC[A,B](f: A => B): F[A] => F[B] = fa => map(fa)(f)
+  def mapC[A, B](f: A => B): F[A] => F[B] = fa => map(fa)(f)
 }
 
 object Functor {
@@ -24,17 +34,21 @@ object Functor {
 
   implicit val optionFunctor: Functor[Option] = new Functor[Option] {
     override def map[A, B](in: Option[A])(f: A => B): Option[B] = in.map(f)
+
     override def mapC[A, B](f: A => B): Option[A] => Option[B] = (_: Option[A]).map(f)
-//    override def mapC[A, B](f: A => B): Option[A] => Option[B] = (o: Option[A]) => o.map(f)
+
+    //    override def mapC[A, B](f: A => B): Option[A] => Option[B] = (o: Option[A]) => o.map(f)
   }
 
-  implicit def eitherFunctor[L] = new Functor[({ type T[A] = Either[L, A] })#T] {
+  implicit def eitherFunctor[L] = new Functor[({type T[A] = Either[L, A]})#T] {
     override def map[A, B](in: Either[L, A])(f: A => B): Either[L, B] = in.map(f)
+
     override def mapC[A, B](f: A => B): Either[L, A] => Either[L, B] = (_: Either[L, A]).map(f)
   }
 
   implicit val tryFunctor: Functor[Try] = new Functor[Try] {
     override def map[A, B](in: Try[A])(f: A => B): Try[B] = in.map(f)
+
     override def mapC[A, B](f: A => B): Try[A] => Try[B] = (_: Try[A]).map(f)
   }
 }
