@@ -61,7 +61,7 @@ trait Applicative[F[_]] extends Functor[F] {
    * It turned out to be a definition for the map2 function,
    * just extended with one more call for an apply for a third parameter!
    *
-   * NIt is possible to implement the **mapN** method for any arity like this.
+   * It is possible to implement the **mapN** method for any arity like this.
    * We can also define it in an inductive way by calling a map of smaller arity
    *
    */
