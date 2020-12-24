@@ -1,5 +1,15 @@
 package ch02
 
+/**
+ * PathDependentTypes work in combination with Inner Classes
+ *
+ * Observation:
+ *    - Looks like in Scala, Objects of InnerClasses belong to one instance of its enclosing class
+ *      -- Unlike Java
+ *    - If you try to pass in an Object of an InnerClass to a method of a different enclosing Object of the enclosing class, it'll throw an error.
+ *      -- Unlike Java
+ *    - PathDependentTypes are for cross sharing
+ */
 object PathDependentTypes {
 
   final case class Lock() {
@@ -10,7 +20,7 @@ object PathDependentTypes {
 
     def close(key: Key): Lock = this
 
-    def openWithMaster(key: Lock#Key): Lock = this
+    def openWithMaster(key: Lock#Key): Lock = this // An example of PathDependentType; the usage of '#'
 
     def makeKey: Key = new Key
 
