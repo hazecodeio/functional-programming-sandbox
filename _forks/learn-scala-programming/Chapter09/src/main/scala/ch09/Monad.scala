@@ -121,6 +121,11 @@ object Monad {
       a.flatMap(f)
   }
 
+  /**
+   * Observations:
+   *    - Implicit Class: to add the Monda's functions to each class of the type F[_]
+   *      - such as: Seq, List, etc
+   */
   object lowPriorityImplicits {
 
     // implicit class MonadF[A, F[_]](val value: F[A])(implicit M: Monad[F]) { // Alternative to the following two lines
