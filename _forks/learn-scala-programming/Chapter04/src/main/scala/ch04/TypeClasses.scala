@@ -29,7 +29,7 @@ object TypeClasses {
     case class UsbC[Kind](kind: Kind)
 
     @scala.annotation.implicitNotFound("Cannot connect cable of type ${C}")
-    trait Cable[C] {
+    trait Cable[C] { // Type Class
       def connect(c: C): Boolean
     }
     implicit val UsbCable: Cable[Usb] = new Cable[Usb] {

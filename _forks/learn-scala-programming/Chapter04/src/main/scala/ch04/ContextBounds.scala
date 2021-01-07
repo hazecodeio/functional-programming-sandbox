@@ -1,5 +1,8 @@
 package ch04
 
+/**
+ * Link: https://stackoverflow.com/questions/29731579/understanding-multiple-context-bounds
+ */
 object ContextBounds {
 
   trait CanEqual[T] {

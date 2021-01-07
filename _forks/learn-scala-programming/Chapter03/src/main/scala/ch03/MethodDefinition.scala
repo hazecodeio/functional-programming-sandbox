@@ -5,9 +5,7 @@ object MethodDefinition {
 
   private def nonEqual(arg1: String, arg2: Int) = arg1 != arg2.toString
 
-  def defaultValues(a: String = "default")(b: Int = 0, c: String = a)(
-      implicit d: Long = b,
-      e: String = a) = ???
+  def defaultValues(a: String = "default")(b: Int = 0, c: String = a)(implicit d: Long = b, e: String = a) = ???
 
   def byName(int: => Int) = {
     println(int)
