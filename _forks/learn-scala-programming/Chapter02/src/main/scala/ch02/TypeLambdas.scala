@@ -1,6 +1,10 @@
 package ch02
 
-
+/**
+ * Explanation:
+ *    - https://stackoverflow.com/questions/8736164/what-are-type-lambdas-in-scala-and-what-are-their-benefits
+ *    - https://underscore.io/blog/posts/2016/12/05/type-lambdas.html
+ */
 object TypeLambdas {
 
   import scala.language.higherKinds

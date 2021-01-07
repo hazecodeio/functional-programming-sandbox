@@ -16,6 +16,10 @@ object PhantomTypes {
 
     def close[_ >: State <: Open]: Lock[Closed] = Lock()
 
+    def openViaImplicit(implicit evidence: State =:= Closed): Lock[Open] = Lock()
+    def closeViaImplicit(implicit evidence: State =:= Open): Lock[Closed] = Lock()
+
+
     def break: Lock[Broken] = Lock()
   }
 

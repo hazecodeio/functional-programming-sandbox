@@ -16,9 +16,9 @@ object PathDependentTypes {
 
     final case class Key()
 
-    def open(key: Key): Lock = this
+    def open(key: Key): Lock = this // Lock.this
 
-    def close(key: Key): Lock = this
+    def close(key: Key): Lock = this // Lock.this
 
     def openWithMaster(key: Lock#Key): Lock = this // An example of PathDependentType; the usage of '#'
 

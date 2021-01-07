@@ -24,7 +24,7 @@ object TypeMembers {
     def c: C
   }
 
-  // fails to compile
+  // fails to compile because the type definition is missing
   /*
   class BC extends HolderBC {
     override def b = "String"

@@ -1,13 +1,19 @@
 package ch02
 
+/**
+ * Example: https://herringtondarkholme.github.io/2014/09/30/scala-operator/
+ */
 object GeneralisedConstraints {
   import Linearization._
   abstract class Wrapper[A] {
     val a: A
 
-    // A in flatten shadows A in Wrapper
+    /*
+     * A in flatten() shadows A in Wrapper
+     * A has been defined at the class declaration, in the class body Scala compiler requires every type bound to be consistent with A’s definition
+     */
     // def flatten[B, A <: Wrapper[B]]: Wrapper[B] = a
-    def flatten(implicit ev: A <:< Wrapper[B]): Wrapper[B] = a
+    def flatten(implicit evidence: A <:< Wrapper[B]): Wrapper[B] = a
   }
 
   /**

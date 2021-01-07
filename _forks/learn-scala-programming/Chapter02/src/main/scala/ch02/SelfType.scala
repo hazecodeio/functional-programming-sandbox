@@ -19,6 +19,7 @@ object SelfType {
   trait D {
     self: A with B => // self is an alias for mixed traits
     def d: String = this.a + this.b
+    def anotherD: String = self.a + self.b
   }
 
 }

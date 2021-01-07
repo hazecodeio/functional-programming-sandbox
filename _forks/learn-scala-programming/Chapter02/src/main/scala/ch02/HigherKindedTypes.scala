@@ -1,6 +1,8 @@
 package ch02
 
-
+/**
+ * Link: https://www.baeldung.com/scala/higher-kinded-types
+ */
 object HigherKindedTypes {
 
   import scala.language.higherKinds
@@ -17,6 +19,7 @@ object HigherKindedTypes {
 
   def fillJar[C](c: C): Jar[C] = Jar(c)
 
+  // Higher Kinded Type: A type that abstracts over another type
   sealed trait Filler[CC[_]] {
     def fill[C](c: C): CC[C]
   }
