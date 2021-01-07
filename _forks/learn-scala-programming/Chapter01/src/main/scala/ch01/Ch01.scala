@@ -51,7 +51,9 @@ object Ch01 extends App {
   }
 
 //  start()
+  print("Enter: ")
   val result = StdIn.readLine().pipe(_.toIntOption).tap(measure)
+  print("Enter: ")
   val anotherResult = StdIn.readLine().pipe(_.toIntOption).tap(measure)
 
   final case class Resource(name: String) extends AutoCloseable {
