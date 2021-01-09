@@ -97,7 +97,7 @@ trait Applicative[F[_]] extends Functor[F] {
                              fb: F[B],
                              fc: F[C],
                              fd: F[D],
-                             fe: F[E], f: (A, B, C, D, E) => Z): F[Z] = {
+                             fe: F[E])( f: (A, B, C, D, E) => Z): F[Z] = {
     // via primitives apply() + unit()
 //    apply(fe)(apply(fd)(apply(fc)(apply(fb)(apply(fa)(unit(f.curried))))))
 

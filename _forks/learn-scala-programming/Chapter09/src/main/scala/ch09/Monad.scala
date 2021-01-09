@@ -125,6 +125,7 @@ object Monad {
    * Observations:
    *    - Implicit Class: to add the Monda's functions to each class of the type F[_]
    *      - such as: Seq, List, etc
+   *    - I.e. Implicit Conversions
    */
   object lowPriorityImplicits {
 
