@@ -3,8 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.hsmak</groupId>
-    <artifactId>_functional-programming-sandbox</artifactId>
+    <artifactId>functional-programming-sandbox</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <modules>
+    </modules>
 
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
